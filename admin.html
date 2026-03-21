@@ -92,7 +92,7 @@
         <div class="modal-content glass-card" style="max-width: 500px;">
             <span class="close-modal" onclick="closeModal('event-modal')">&times;</span>
             <h2 id="event-modal-title" style="margin-bottom: 1.5rem; font-family: var(--font-heading); color: var(--accent);">Add Event</h2>
-            <form id="event-form" onsubmit="saveEvent(event)">
+            <form id="event-form" onsubmit="event.preventDefault(); saveEvent(event); return false;">
                 <input type="hidden" id="event-id">
                 <div class="form-group">
                     <label>Event Name</label>
@@ -103,8 +103,8 @@
                     <input type="date" id="event-date" class="form-input" required>
                 </div>
                 <div class="form-group">
-                    <label>Image URL</label>
-                    <input type="url" id="event-image" class="form-input" placeholder="https://..." required>
+                    <label>Image URL or Path</label>
+                    <input type="text" id="event-image" class="form-input" placeholder="images/event.jpg or https://..." required>
                 </div>
                 <div class="form-group">
                     <label>Category</label>
@@ -127,7 +127,7 @@
         <div class="modal-content glass-card" style="max-width: 500px;">
             <span class="close-modal" onclick="closeModal('team-modal')">&times;</span>
             <h2 id="team-modal-title" style="margin-bottom: 1.5rem; font-family: var(--font-heading); color: var(--accent);">Add Team Member</h2>
-            <form id="team-form" onsubmit="saveTeamMember(event)">
+            <form id="team-form" onsubmit="event.preventDefault(); saveTeamMember(event); return false;">
                 <input type="hidden" id="team-id">
                 <div class="form-group">
                     <label>Name</label>
@@ -142,8 +142,8 @@
                     <input type="text" id="team-branch" class="form-input" placeholder="e.g. Computer Science" required>
                 </div>
                 <div class="form-group">
-                    <label>Photo URL</label>
-                    <input type="url" id="team-photo" class="form-input" placeholder="https://..." required>
+                    <label>Photo URL or Path</label>
+                    <input type="text" id="team-photo" class="form-input" placeholder="images/photo.jpg or https://..." required>
                 </div>
                 <button type="submit" class="btn btn-primary" style="width: 100%;">Save Member</button>
             </form>

@@ -67,11 +67,22 @@ const defaultEvents = [
     }
 ];
 
-// Initialize localStorage
-if (!localStorage.getItem('abhyuday_team')) {
+// Initialize localStorage safely natively
+try {
+    const testTeam = JSON.parse(localStorage.getItem('abhyuday_team'));
+    if (!testTeam || testTeam.length === 0) {
+        localStorage.setItem('abhyuday_team', JSON.stringify(defaultTeam));
+    }
+} catch(e) {
     localStorage.setItem('abhyuday_team', JSON.stringify(defaultTeam));
 }
-if (!localStorage.getItem('abhyuday_events')) {
+
+try {
+    const testEvents = JSON.parse(localStorage.getItem('abhyuday_events'));
+    if (!testEvents || testEvents.length === 0) {
+        localStorage.setItem('abhyuday_events', JSON.stringify(defaultEvents));
+    }
+} catch(e) {
     localStorage.setItem('abhyuday_events', JSON.stringify(defaultEvents));
 }
 
@@ -93,6 +104,15 @@ document.addEventListener('DOMContentLoaded', () => {
         renderTeam();
         renderEvents('upcoming');
     }
+    
+    // Load embedded Admin Portal if logged in natively
+    if (sessionStorage.getItem('isAdminLoggedIn') === 'true') {
+        const wrapper = document.getElementById('admin-dashboard-wrapper');
+        if (wrapper) {
+            wrapper.style.display = 'block';
+            initAdminData();
+        }
+    }
 });
 
 // Toast Notification
@@ -109,7 +129,6 @@ function showToast(message) {
 // Scroll Effects (Navbar & Animations)
 function initScrollEffects() {
     const navbar = document.getElementById('navbar');
-    const fadeElements = document.querySelectorAll('.fade-in');
 
     window.addEventListener('scroll', () => {
         // Navbar Scrolled State
@@ -122,6 +141,7 @@ function initScrollEffects() {
         }
 
         // Fade In Elements
+        const fadeElements = document.querySelectorAll('.fade-in');
         fadeElements.forEach(el => {
             const rect = el.getBoundingClientRect();
             const windowHeight = window.innerHeight || document.documentElement.clientHeight;
@@ -132,7 +152,7 @@ function initScrollEffects() {
     });
 
     // Trigger once on load
-    window.dispatchEvent(new Event('scroll'));
+    setTimeout(() => window.dispatchEvent(new Event('scroll')), 50);
 }
 
 // Mobile Navigation
@@ -212,15 +232,19 @@ function renderTeam() {
             </div>
         `;
     });
-    window.dispatchEvent(new Event('scroll')); // re-trigger animations
+    setTimeout(() => window.dispatchEvent(new Event('scroll')), 50); // re-trigger animations
 }
 
-function switchEventTab(category) {
+function switchEventTab(category, triggerEvent) {
     // Update active tab button
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.classList.remove('active');
     });
-    event.target.classList.add('active');
+    if (triggerEvent && triggerEvent.currentTarget) {
+        triggerEvent.currentTarget.classList.add('active');
+    } else if (window.event && window.event.target) {
+        try { window.event.target.classList.add('active'); } catch(e) {}
+    }
     
     renderEvents(category);
 }
@@ -264,7 +288,7 @@ function renderEvents(category) {
             </div>
         `;
     });
-    window.dispatchEvent(new Event('scroll')); // re-trigger animations
+    setTimeout(() => window.dispatchEvent(new Event('scroll')), 50); // re-trigger animations
 }
 
 
@@ -295,7 +319,14 @@ function verifyAdminPin() {
     
     if (pinInput.value === 'navkis@202526') { // Hardcoded PIN
         sessionStorage.setItem('isAdminLoggedIn', 'true');
-        window.location.href = 'admin.html';
+        closeModal('admin-modal');
+        const wrapper = document.getElementById('admin-dashboard-wrapper');
+        if(wrapper) {
+            wrapper.style.display = 'block';
+            initAdminData();
+            window.scrollTo(0,0);
+        }
+        pinInput.value = '';
     } else {
         errorMsg.style.display = 'block';
         pinInput.value = '';
@@ -305,7 +336,17 @@ function verifyAdminPin() {
 
 function logoutAdmin() {
     sessionStorage.removeItem('isAdminLoggedIn');
-    window.location.href = 'index.html';
+    exitAdminDashboard();
+}
+
+function exitAdminDashboard() {
+    const wrapper = document.getElementById('admin-dashboard-wrapper');
+    if (wrapper) {
+        wrapper.style.display = 'none';
+    }
+    renderTeam();
+    renderEvents('upcoming');
+    window.scrollTo(0,0);
 }
 
 function togglePinVisibility() {
@@ -395,7 +436,7 @@ function openAddEventModal() {
 }
 
 function saveEvent(e) {
-    e.preventDefault();
+    if(e && e.preventDefault) e.preventDefault();
     
     const id = document.getElementById('event-id').value;
     const name = document.getElementById('event-name').value;
@@ -487,7 +528,7 @@ function openAddTeamModal() {
 }
 
 function saveTeamMember(e) {
-    e.preventDefault();
+    if(e && e.preventDefault) e.preventDefault();
     
     const id = document.getElementById('team-id').value;
     const name = document.getElementById('team-name').value;
