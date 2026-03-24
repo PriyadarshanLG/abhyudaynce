@@ -298,12 +298,14 @@ h6 {
 }
 
 .nav-container {
-    max-width: 1200px;
+    max-width: 1600px;
+    width: 95%;
     margin: 0 auto;
     padding: 0 20px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Keeps logo completely left when nav-links is pulled out of flow */
     align-items: center;
+    position: relative;
 }
 
 .logo {
@@ -320,60 +322,78 @@ h6 {
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 35px;
+    gap: 8px;
     align-items: center;
+    background: rgba(18, 5, 31, 0.65);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 8px 12px;
+    border-radius: 50px;
+    border: 1px solid rgba(252, 211, 77, 0.2);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(252, 211, 77, 0.05);
+    transition: all 0.5s ease;
+}
+
+.nav-links:hover {
+    border-color: rgba(252, 211, 77, 0.4);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), inset 0 0 25px rgba(252, 211, 77, 0.1);
+}
+
+.nav-links li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .nav-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: var(--text-main);
     text-decoration: none;
-    font-weight: 500;
-    font-size: 1rem;
-    transition: var(--transition);
+    font-weight: 600;
+    font-size: 0.95rem;
     position: relative;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
+    padding: 10px 22px;
+    border-radius: 30px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 1;
 }
 
 .nav-links a::after {
     content: '';
     position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: -5px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--accent);
-    transition: var(--transition);
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(45deg, var(--accent), var(--secondary));
+    border-radius: 30px;
+    z-index: -1;
+    opacity: 0;
+    transform: scale(0.7);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .nav-links a:hover::after,
 .nav-links a.active::after {
-    width: 100%;
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 5px 20px rgba(252, 211, 77, 0.4);
 }
 
 .nav-links a:hover,
 .nav-links a.active {
-    color: var(--accent);
-    text-shadow: 0 0 10px rgba(252, 211, 77, 0.3);
+    color: var(--bg-dark);
+    text-shadow: none;
 }
 
-.admin-link {
-    background: rgba(252, 211, 77, 0.1);
-    padding: 6px 14px;
-    border-radius: 20px;
-    border: 1px solid var(--border-gold);
-    color: var(--accent) !important;
-}
-
-.admin-link::after {
-    display: none;
-}
-
-.admin-link:hover {
-    background: var(--accent);
-    color: var(--bg-dark) !important;
-    box-shadow: 0 0 15px rgba(252, 211, 77, 0.5);
+/* Hide admin login button from navigation completely as requested */
+.admin-link,
+#admin-login-btn {
+    display: none !important;
 }
 
 .hamburger {
@@ -398,11 +418,12 @@ h6 {
 }
 
 .hero-content {
-    max-width: 900px;
+    max-width: 1400px;
+    width: 100%;
     z-index: 2;
     padding-top: 0;
-    margin-top: -80px;
-    /* Pulls the entire block vertically upwards near the header */
+    margin-top: 0;
+    /* Flexbox natively centers the block vertically now */
 }
 
 .hero p {
@@ -421,61 +442,65 @@ h6 {
 
 /* Scroll Indicator (Chevron Arrows) */
 .scroll-indicator {
-    position: absolute;
-    bottom: 90px;
-    left: 50%;
-    transform: translateX(-50%) !important;
+    position: relative;
+    margin-top: 40px;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     color: var(--accent);
     text-decoration: none;
-    opacity: 0.2 !important;
+    opacity: 0.15 !important;
     transition: all 0.5s ease;
     z-index: 10;
 }
 
 .scroll-indicator:hover {
     opacity: 1 !important;
-    transform: translateX(-50%) translateY(-5px) scale(1.1) !important;
+    transform: translateY(-5px) scale(1.1) !important;
     filter: drop-shadow(0 0 15px rgba(252, 211, 77, 0.8));
 }
 
+
 .scroll-indicator i {
-    font-size: 1.8rem;
-    margin: -7px 0;
+    margin: -5px 0;
     opacity: 0;
     animation: chevron-drop 1.8s infinite cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .scroll-indicator .arrow-1 {
     animation-delay: 0s;
+    font-size: 1.2rem;
 }
 
 .scroll-indicator .arrow-2 {
     animation-delay: 0.15s;
+    font-size: 1.8rem;
 }
 
 .scroll-indicator .arrow-3 {
     animation-delay: 0.3s;
+    font-size: 2.6rem;
 }
 
 @keyframes chevron-drop {
     0% {
         opacity: 0;
-        transform: translateY(-15px) scale(0.8);
+        transform: translateY(-15px) scale3d(0.6, 0.8, 1);
+        filter: none;
     }
 
     50% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-        filter: none;
+        opacity: 0.8;
+        transform: translateY(0) scale3d(0.6, 1, 1);
+        filter: drop-shadow(0 0 10px rgba(252, 211, 77, 0.25));
     }
 
     100% {
         opacity: 0;
-        transform: translateY(15px) scale(0.8);
+        transform: translateY(15px) scale3d(0.6, 0.8, 1);
+        filter: none;
     }
 }
 
@@ -585,11 +610,12 @@ h6 {
 
 .divider-top {
     bottom: 0;
-    transform: rotate(180deg);
+    display: none !important; /* The irregular lower mountain overlap */
 }
 
 .divider-bottom {
     top: 0;
+    transform: rotate(180deg);
 }
 
 .divider-top svg,
@@ -608,7 +634,7 @@ h6 {
    ABOUT SECTION
 ========================================================================= */
 .about {
-    background: linear-gradient(180deg, #1f0b31 0%, var(--bg-dark) 100%);
+    background: linear-gradient(180deg, transparent 0%, #1f0b31 10%, #1f0b31 90%, transparent 100%);
     position: relative;
 }
 
@@ -703,32 +729,465 @@ h6 {
 /* =========================================================================
    TEAM SECTION
 ========================================================================= */
+/* Faculty convener spotlight — slightly larger than minimal, still smaller than a full coordinator card */
+.team-club-cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 1.65rem;
+    max-width: 248px;
+    padding: 0.8rem 0.9rem 1rem;
+    text-align: center;
+    background: rgba(18, 5, 31, 0.35);
+    border: 1px solid var(--border-gold);
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(252, 211, 77, 0.03);
+}
+
+.team-convener-photo {
+    position: relative;
+    width: 100%;
+    max-width: 150px;
+    aspect-ratio: 4 / 5;
+    margin: 0 auto 0.65rem;
+    border-radius: 13px;
+    overflow: hidden;
+    border: 1px solid var(--border-gold);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+    background: rgba(12, 4, 22, 0.55);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+/* Gold label above the portrait (plain text — no frame) */
+.team-convener-badge {
+    display: inline-block;
+    margin: 0 0 0.5rem;
+    padding: 0.15rem 0.25rem;
+    font-family: var(--font-heading);
+    font-size: clamp(0.5rem, 0.82vw, 0.68rem);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    line-height: 1.1;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    pointer-events: none;
+    text-shadow: 0 0 12px rgba(252, 211, 77, 0.35);
+}
+
+.team-convener-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center top;
+    transition: transform 0.45s cubic-bezier(0.25, 0.85, 0.35, 1);
+}
+
+.team-convener-photo:hover .team-convener-img,
+.team-convener-photo:active .team-convener-img {
+    transform: scale(1.09);
+}
+
+.team-convener-info {
+    width: 100%;
+    padding: 0 0.25rem;
+}
+
+.team-convener-name {
+    font-family: var(--font-heading);
+    font-size: clamp(0.68rem, 1.1vw, 0.88rem);
+    font-weight: 700;
+    letter-spacing: 0.045em;
+    text-transform: uppercase;
+    color: var(--accent);
+    line-height: 1.28;
+    margin-bottom: 0.4rem;
+    text-shadow: 0 0 8px rgba(252, 211, 77, 0.15);
+}
+
+.team-convener-role {
+    font-family: var(--font-body);
+    font-size: clamp(0.6rem, 0.95vw, 0.76rem);
+    color: var(--text-muted);
+    line-height: 1.4;
+    font-weight: 500;
+    margin: 0;
+}
+
+/* Team section: slightly wider than global .container (1200px) so year panels breathe */
+#team .container {
+    max-width: 1400px;
+}
+
+/* Core Team — stacked year sections (one panel per year: title + members in the same box) */
+#team .team-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    width: 100%;
+}
+
+.team-year-block {
+    width: 100%;
+}
+
+/* One shared frame: light outline only — no fill inside the box */
+.team-year-panel {
+    /* Fills #team .container (wider than site default) */
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+    border-radius: clamp(18px, 2.2vw, 26px);
+    background: transparent;
+    border: 1px solid rgba(252, 211, 77, 0.28);
+    box-shadow: none;
+    overflow: hidden;
+}
+
+/* Heading row: transparent; thin divider under title only */
+.team-year-banner {
+    padding: 1rem 1.5rem 1.15rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(252, 211, 77, 0.1);
+    background: transparent;
+}
+
+.team-year-heading {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: clamp(1.65rem, 4.2vw, 2.6rem);
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+.team-year-block--3 .team-year-panel {
+    border-color: rgba(252, 211, 77, 0.32);
+}
+
+.team-year-block--3 .team-year-banner {
+    border-bottom-color: rgba(252, 211, 77, 0.14);
+}
+
+.team-year-block--3 .team-year-heading {
+    color: var(--accent);
+    text-shadow: 0 0 20px rgba(252, 211, 77, 0.25);
+}
+
+.team-year-block--2 .team-year-panel {
+    border-color: rgba(251, 146, 60, 0.3);
+}
+
+.team-year-block--2 .team-year-banner {
+    border-bottom-color: rgba(251, 146, 60, 0.12);
+}
+
+.team-year-block--2 .team-year-heading {
+    color: var(--secondary);
+    text-shadow: 0 0 18px rgba(251, 146, 60, 0.2);
+}
+
+.team-year-block--1 .team-year-panel {
+    border-color: rgba(190, 18, 60, 0.32);
+}
+
+.team-year-block--1 .team-year-banner {
+    border-bottom-color: rgba(190, 18, 60, 0.14);
+}
+
+.team-year-block--1 .team-year-heading {
+    color: #fda4af;
+    text-shadow: 0 0 16px rgba(190, 18, 60, 0.35);
+}
+
+/* No bottom frame while “View more” shows; full box again after expand (or if everyone fits one row) */
+.team-year-panel:has(.team-grid-clip:not(.is-expanded):not(.team-grid-clip--single-row)) {
+    border-bottom: none;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+/* Soft blend into page bg where the bottom border was removed (avoids a hard horizontal cut) */
+.team-year-panel:has(.team-grid-clip:not(.is-expanded):not(.team-grid-clip--single-row))::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: clamp(32px, 4.5vw, 52px);
+    pointer-events: none;
+    z-index: 3;
+    background: linear-gradient(
+        to bottom,
+        rgba(18, 5, 31, 0) 0%,
+        rgba(18, 5, 31, 0.35) 40%,
+        var(--bg-dark) 88%,
+        var(--bg-dark) 100%
+    );
+}
+
+/* Desktop: 7 coordinators per row; phone 3 cols (see max-width: 768px) — keep in sync with teamGridColumnCount() in script.js */
 .team-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 35px;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 18px;
+}
+
+/* Wrapper: optional collapse + blur; padding moved from .team-grid */
+.team-year-panel .team-grid-clip {
+    position: relative;
+    padding: 1.35rem 1.65rem 1.65rem;
+    overflow: hidden;
+    transition: max-height 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* First row + half of second row; full list when .is-expanded */
+.team-year-panel .team-grid-clip:not(.team-grid-clip--single-row):not(.is-expanded) {
+    max-height: var(--team-grid-peek, 720px);
+}
+
+.team-year-panel .team-grid-clip.is-expanded {
+    max-height: 4800px;
+}
+
+.team-year-panel .team-grid-clip--single-row {
+    max-height: none !important;
+}
+
+.team-year-panel .team-grid {
+    padding: 0;
+}
+
+/*
+ * Fade + backdrop-blur: without a mask, a steep alpha gradient + short box reads as a sharp
+ * horizontal seam. mask-image feathers the whole layer so blur and tint ramp in smoothly.
+ */
+.team-grid-fade {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: clamp(32px, 11%, 68px);
+    pointer-events: none;
+    z-index: 2;
+    background: linear-gradient(
+        to bottom,
+        rgba(23, 4, 42, 0) 0%,
+        rgba(23, 4, 42, 0.04) 18%,
+        rgba(23, 4, 42, 0.14) 42%,
+        rgba(12, 4, 22, 0.48) 72%,
+        rgba(12, 4, 22, 0.82) 100%
+    );
+    backdrop-filter: blur(2.5px);
+    -webkit-backdrop-filter: blur(2.5px);
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0, 0, 0, 0.06) 14%,
+        rgba(0, 0, 0, 0.28) 36%,
+        rgba(0, 0, 0, 0.72) 68%,
+        rgba(0, 0, 0, 0.98) 92%,
+        #000 100%
+    );
+    mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0, 0, 0, 0.06) 14%,
+        rgba(0, 0, 0, 0.28) 36%,
+        rgba(0, 0, 0, 0.72) 68%,
+        rgba(0, 0, 0, 0.98) 92%,
+        #000 100%
+    );
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    opacity: 1;
+    transition: opacity 0.4s ease;
+}
+
+.team-grid-clip.is-expanded .team-grid-fade,
+.team-grid-clip--single-row .team-grid-fade {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.team-grid-clip--single-row .team-grid-fade {
+    display: none;
+}
+
+.team-view-more {
+    position: absolute;
+    left: 50%;
+    bottom: 0.5rem;
+    transform: translateX(-50%);
+    z-index: 4;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    padding: 0.48rem 1.15rem 0.48rem 1.25rem;
+    font-family: var(--font-heading);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    cursor: pointer;
+    border: 1px solid rgba(252, 211, 77, 0.34);
+    border-radius: 10px;
+    background: linear-gradient(160deg, rgba(36, 22, 58, 0.92) 0%, rgba(14, 6, 26, 0.96) 100%);
+    box-shadow:
+        0 6px 22px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(252, 211, 77, 0.14);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition:
+        border-color 0.25s ease,
+        border-radius 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.2s ease,
+        color 0.2s ease,
+        background 0.25s ease;
+}
+
+/* View more: no bottom stroke + flat bottom so it merges with the fade; subtle wash under */
+.team-grid-clip:not(.is-expanded):not(.team-grid-clip--single-row) .team-view-more {
+    border-bottom: none;
+    border-radius: 12px 12px 0 0;
+    box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(252, 211, 77, 0.12);
+}
+
+.team-grid-clip:not(.is-expanded):not(.team-grid-clip--single-row) .team-view-more::before {
+    content: '';
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    top: 100%;
+    height: 18px;
+    background: linear-gradient(to bottom, rgba(14, 6, 26, 0.55), transparent);
+    pointer-events: none;
+}
+
+/* View less: closed pill with full gold outline */
+.team-grid-clip.is-expanded .team-view-more {
+    border-bottom: 1px solid rgba(252, 211, 77, 0.34);
+    border-radius: 10px;
+    box-shadow:
+        0 6px 22px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(252, 211, 77, 0.14);
+}
+
+.team-grid-clip.is-expanded .team-view-more::before {
+    display: none;
+}
+
+/* Chevron: down = more, flips up when expanded */
+.team-view-more::after {
+    content: '';
+    flex-shrink: 0;
+    width: 0.4rem;
+    height: 0.4rem;
+    margin-top: -0.15em;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    opacity: 0.9;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), margin 0.3s ease;
+}
+
+.team-grid-clip.is-expanded .team-view-more::after {
+    margin-top: 0.12em;
+    transform: rotate(225deg);
+}
+
+.team-view-more:hover {
+    color: #fde68a;
+}
+
+.team-grid-clip:not(.is-expanded):not(.team-grid-clip--single-row) .team-view-more:hover {
+    border-color: rgba(252, 211, 77, 0.52);
+    box-shadow:
+        0 8px 26px rgba(0, 0, 0, 0.48),
+        inset 0 1px 0 rgba(252, 211, 77, 0.2);
+}
+
+.team-grid-clip.is-expanded .team-view-more:hover {
+    border-color: rgba(252, 211, 77, 0.55);
+    box-shadow:
+        0 8px 28px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(252, 211, 77, 0.22);
+}
+
+.team-view-more:focus-visible {
+    outline: 2px solid rgba(252, 211, 77, 0.55);
+    outline-offset: 3px;
+}
+
+.team-view-more:active {
+    transform: translateX(-50%) scale(0.97);
+}
+
+.team-grid-clip--single-row .team-view-more {
+    display: none !important;
 }
 
 .member-card {
     text-align: center;
-    padding: 15px;
+    padding: 12px 8px 24px;
     padding-bottom: 30px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
+/* Coordinator portraits — 4:5 frame; full photo visible (letterbox) so faces aren’t cropped */
 .member-img {
-    height: 320px;
-    margin-bottom: 20px;
+    position: relative;
+    aspect-ratio: 4 / 5;
+    width: 100%;
+    max-height: 280px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    border-radius: 12px;
+    background: rgba(12, 4, 22, 0.55);
+    border: 1px solid var(--border-gold);
+    box-sizing: border-box;
+}
+
+.member-branch {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.35;
+    padding: 0 2px;
 }
 
 .member-img img {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    transition: var(--transition);
+    object-fit: contain;
+    object-position: center top;
+    transition: transform 0.45s cubic-bezier(0.25, 0.85, 0.35, 1);
 }
 
-.member-card:hover .member-img img {
-    transform: scale(1.08);
+/* Grow on hover (pointer) and while pressed / finger down (tap) */
+.member-card:hover .member-img img,
+.member-card:active .member-img img {
+    transform: scale(1.09);
 }
 
 .member-name {
@@ -737,18 +1196,22 @@ h6 {
     color: var(--accent);
 }
 
+/* Seven columns on desktop: tight clamp keeps names readable */
+#team .member-name {
+    font-size: clamp(0.82rem, 1.15vw, 1.2rem);
+    line-height: 1.25;
+}
+
 .member-role {
-    color: var(--secondary);
-    font-weight: 600;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 5px;
+    display: none !important;
 }
 
 /* =========================================================================
    EVENTS SECTION
 ========================================================================= */
+.events {
+    background: linear-gradient(180deg, transparent 0%, #17042a 10%, #17042a 90%, transparent 100%);
+}
 .event-tabs {
     display: flex;
     justify-content: center;
@@ -855,13 +1318,126 @@ h6 {
    GALLERY SECTION
 ========================================================================= */
 .gallery {
-    background: #0f0518;
+    background: linear-gradient(180deg, transparent 0%, #0f0518 10%, #0f0518 90%, transparent 100%);
 }
 
 .gallery-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 30px;
+}
+
+/* =========================================================================
+   Video Gallery (single row: center biggest, neighbors smaller)
+========================================================================= */
+.video-row-scroll {
+    display: flex;
+    gap: 34px;
+    overflow-x: auto;
+    overflow-y: visible;
+    padding: 18px 8px;
+    /* Avoid hard snapping so drag/side-scroll feels natural. */
+    scroll-snap-type: x proximity;
+    scrollbar-width: none; /* firefox */
+}
+
+.video-row-scroll::before,
+.video-row-scroll::after {
+    content: '';
+    flex: 0 0 var(--video-edge-space, 0px);
+}
+
+.video-row-scroll::-webkit-scrollbar {
+    display: none; /* chrome/safari */
+}
+
+.video-slot {
+    flex: 0 0 auto;
+    width: clamp(120px, 16vw, 220px);
+    aspect-ratio: auto;
+    overflow: visible;
+    scroll-snap-align: center;
+    transform: scale(var(--vs-scale, 0.7));
+    transform-origin: center center;
+    transition: transform 0.35s cubic-bezier(0.25, 0.85, 0.35, 1), width 0.35s cubic-bezier(0.25, 0.85, 0.35, 1);
+    z-index: 1;
+}
+
+.video-slot.is-center {
+    /* Make center card physically larger in both width and perceived height. */
+    width: clamp(170px, 24vw, 320px);
+}
+
+.video-frame {
+    border-radius: 60px;
+    overflow: hidden;
+    border: 1px solid var(--border-gold);
+    background: rgba(0, 0, 0, 0.35);
+    transition: border-radius 0.35s ease;
+}
+
+.video-slot.is-center .video-frame {
+    border-radius: 52px;
+}
+
+.video-frame video {
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    object-fit: contain; /* show full video frame (no cropping) */
+    display: block;
+    background: #000;
+}
+
+.video-title {
+    margin: 12px 2px 0;
+    text-align: center;
+    font-family: var(--font-heading);
+    font-size: clamp(0.78rem, 1vw, 1.05rem);
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+    text-transform: capitalize;
+    text-shadow: 0 0 10px rgba(252, 211, 77, 0.38);
+    opacity: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.video-slot.is-center .video-title {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+}
+
+@media (max-width: 768px) {
+    .video-row-scroll {
+        gap: 18px;
+        padding: 12px 6px;
+    }
+
+    .video-slot {
+        width: clamp(104px, 37vw, 160px);
+    }
+
+    .video-slot.is-center {
+        width: clamp(138px, 50vw, 210px);
+    }
+
+    .video-frame {
+        border-radius: 28px;
+    }
+
+    .video-slot.is-center .video-frame {
+        border-radius: 32px;
+    }
+
+    .video-title {
+        margin-top: 9px;
+        font-size: 0.8rem;
+        letter-spacing: 0.03em;
+    }
 }
 
 .gallery-wrapper {
@@ -1001,6 +1577,232 @@ h6 {
     box-shadow: 0 5px 15px rgba(252, 211, 77, 0.4);
 }
 
+/* =========================================================================
+   Quick Gallery Button (right side)
+========================================================================= */
+.quick-gallery-btn {
+    position: fixed;
+    right: 12px;
+    bottom: 92px;
+    z-index: 3200;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    border-radius: 50%;
+    text-decoration: none;
+    font-family: var(--font-heading);
+    color: #1a1026;
+    background: linear-gradient(180deg, rgba(251, 191, 36, 0.98) 0%, rgba(245, 158, 11, 0.96) 100%);
+    border: 1px solid rgba(252, 211, 77, 0.7);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35), 0 0 0 rgba(252, 211, 77, 0.35);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+    animation: quickGalleryPulse 2.2s ease-in-out infinite;
+}
+
+.quick-gallery-btn:hover {
+    transform: translateY(-2px) scale(1.06);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45), 0 0 18px rgba(252, 211, 77, 0.55);
+    filter: saturate(1.08);
+}
+
+.quick-gallery-btn i {
+    font-size: 1.15rem;
+}
+
+@keyframes quickGalleryPulse {
+    0%, 100% {
+        box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35), 0 0 0 0 rgba(252, 211, 77, 0.42);
+    }
+    50% {
+        box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35), 0 0 0 8px rgba(252, 211, 77, 0);
+    }
+}
+
+/* =========================================================================
+   Right-side Social Widget (yellow box like reference)
+========================================================================= */
+.right-social-widget {
+    position: fixed;
+    right: -1px; /* eliminate sub-pixel gap at viewport edge */
+    top: 150px;
+    transform: none;
+    z-index: 6000;
+    display: block;
+}
+
+.right-social-bar {
+    width: 46px;
+    height: 150px;
+    border-radius: 14px 0 0 14px; /* straight edge on the screen side */
+    margin: 0;
+    padding-right: 0;
+    background: linear-gradient(180deg, rgba(251, 191, 36, 0.55) 0%, rgba(245, 158, 11, 0.55) 100%);
+    border: 1px solid rgba(252, 211, 77, 0.35);
+    border-right: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 10px 0;
+    gap: 10px;
+}
+
+.right-social-link {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(26, 16, 38, 0.08);
+    border: 1px solid rgba(26, 16, 38, 0.16);
+    color: #1a1026;
+    text-decoration: none;
+    transition: transform 0.36s cubic-bezier(0.22, 1, 0.36, 1), background 0.32s ease, box-shadow 0.32s ease, color 0.32s ease;
+    box-shadow: inset 0 0 0 rgba(252, 211, 77, 0);
+}
+
+.right-social-link:hover {
+    transform: translateY(-4px) scale(1.14);
+    background: rgba(26, 16, 38, 0.22);
+    color: #0f0918;
+    box-shadow: 0 7px 16px rgba(0, 0, 0, 0.35), 0 0 14px rgba(252, 211, 77, 0.45);
+}
+
+.right-social-link i {
+    transition: transform 0.36s cubic-bezier(0.22, 1, 0.36, 1), filter 0.32s ease;
+}
+
+.right-social-link:hover i {
+    transform: scale(1.2) rotate(-8deg);
+    filter: drop-shadow(0 0 8px rgba(252, 211, 77, 0.5));
+}
+
+.right-social-link:active {
+    transform: translateY(-1px) scale(0.98);
+}
+
+.right-social-toggle {
+    width: 42px;
+    height: 150px;
+    border-radius: 14px;
+    background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%);
+    border: 1px solid rgba(252, 211, 77, 0.6);
+    cursor: pointer;
+    color: #1a1026;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    transition: transform 0.2s ease;
+}
+
+.right-social-toggle:hover {
+    transform: translateY(-2px);
+}
+
+.right-social-toggle-text {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-family: var(--font-heading);
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    font-size: 0.85rem;
+}
+
+.right-social-panel {
+    width: 240px;
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(251, 191, 36, 0.98) 0%, rgba(245, 158, 11, 0.96) 100%);
+    border: 1px solid rgba(252, 211, 77, 0.7);
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
+    transform: translateX(110%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.3s ease, opacity 0.25s ease;
+    overflow: hidden;
+}
+
+.right-social-widget.is-open .right-social-panel {
+    transform: translateX(0%);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.right-social-panel-inner {
+    padding: 14px 14px 18px;
+    color: #1a1026;
+}
+
+.right-social-title {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.right-social-icons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.right-social-icons a {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(10, 2, 17, 0.12);
+    border: 1px solid rgba(26, 16, 38, 0.25);
+    color: #1a1026;
+    text-decoration: none;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.right-social-icons a:hover {
+    transform: translateY(-3px);
+    background: rgba(10, 2, 17, 0.22);
+}
+
+@media (max-width: 992px) {
+    .quick-gallery-btn {
+        bottom: 86px;
+        right: 10px;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+    }
+
+    .right-social-widget {
+        right: -1px; /* keep flush to edge on mobile too */
+        top: 85px;
+        bottom: auto;
+        transform: none;
+        z-index: 3000;
+    }
+
+    .right-social-bar {
+        height: 128px;
+        width: 40px;
+        border-radius: 12px 0 0 12px; /* keep right edge straight on mobile */
+    }
+
+    .right-social-link {
+        width: 32px;
+        height: 32px;
+    }
+}
+
 .contact-form-dummy {
     padding: 50px;
 }
@@ -1033,8 +1835,7 @@ footer {
     padding: 60px 20px 40px;
     position: relative;
     overflow: hidden;
-    background: #08020d;
-    border-top: 1px solid var(--border-gold);
+    background: linear-gradient(180deg, transparent 0%, #08020d 20%, #08020d 100%);
     font-family: var(--font-heading);
     font-size: 1.1rem;
 }
@@ -1102,7 +1903,8 @@ footer {
     padding: 18px 30px;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(252, 211, 77, 0.2);
-    z-index: 3000;
+    /* Above admin overlay (10000) so save/delete toasts are visible */
+    z-index: 10100;
     transform: translateX(120%);
     opacity: 0;
     transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -1130,22 +1932,60 @@ footer {
     background: #08020d;
 }
 
+.admin-dashboard-wrapper {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: var(--bg-dark);
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
 .admin-navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 5%;
+    flex-wrap: wrap;
+    gap: 12px 16px;
+    padding: 14px clamp(16px, 4vw, 40px);
     background: var(--bg-card);
     border-bottom: 1px solid var(--border-gold);
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+.admin-navbar .logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: clamp(0.85rem, 2.8vw, 1.05rem);
+}
+
+.admin-nav-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.admin-nav-actions .btn {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.8rem !important;
+    letter-spacing: 0.02em !important;
+    white-space: nowrap;
 }
 
 .admin-container {
     display: flex;
     max-width: 1400px;
-    margin: 40px auto;
-    padding: 0 20px;
-    gap: 30px;
-    min-height: calc(100vh - 150px);
+    margin: clamp(20px, 4vw, 40px) auto;
+    padding: 0 clamp(14px, 3vw, 20px);
+    gap: clamp(16px, 3vw, 30px);
+    min-height: calc(100vh - 120px);
 }
 
 .admin-sidebar {
@@ -1187,12 +2027,55 @@ footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 14px 20px;
+    margin-bottom: clamp(18px, 4vw, 30px);
 }
 
 .tab-header h2 {
-    font-size: 2.2rem;
+    font-size: clamp(1.35rem, 4vw, 2.2rem);
     color: var(--accent);
+    line-height: 1.2;
+}
+
+.admin-empty-hint {
+    text-align: center;
+    padding: 2.5rem 1.25rem;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+.admin-empty-hint strong {
+    color: var(--accent);
+    display: block;
+    margin-bottom: 0.5rem;
+    font-family: var(--font-heading);
+}
+
+.form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 0.5rem;
+}
+
+.form-actions .btn {
+    flex: 1;
+    min-width: 120px;
+}
+
+.admin-dashboard-wrapper .modal-overlay {
+    z-index: 10050;
+    align-items: flex-start;
+    padding: 24px 12px;
+    overflow-y: auto;
+}
+
+.admin-dashboard-wrapper .modal-content {
+    margin: auto;
+    max-height: min(90vh, 900px);
+    overflow-y: auto;
+    width: 100%;
 }
 
 .admin-table-container {
@@ -1242,6 +2125,37 @@ footer {
     gap: 10px;
 }
 
+.admin-pill {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    text-transform: capitalize;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+.admin-pill--up {
+    background: rgba(34, 197, 94, 0.15);
+    color: #86efac;
+    border: 1px solid rgba(34, 197, 94, 0.35);
+}
+
+.admin-pill--past {
+    background: rgba(251, 146, 60, 0.12);
+    color: var(--secondary);
+    border: 1px solid rgba(251, 146, 60, 0.35);
+}
+
+.admin-pill--year {
+    background: rgba(252, 211, 77, 0.1);
+    color: var(--accent);
+    border: 1px solid rgba(252, 211, 77, 0.28);
+    text-transform: none;
+    font-family: var(--font-body);
+    font-weight: 500;
+}
+
 .btn-icon {
     width: 36px;
     height: 36px;
@@ -1273,6 +2187,49 @@ footer {
     transform: scale(1.1);
 }
 
+@media (max-width: 576px) {
+    .admin-table th,
+    .admin-table td {
+        padding: 10px 8px;
+        font-size: 0.78rem;
+    }
+
+    .admin-table img {
+        width: 44px;
+        height: 44px;
+        border-radius: 8px;
+    }
+
+    .action-btns {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    .btn-icon {
+        width: 34px;
+        height: 34px;
+    }
+
+    .admin-dashboard-wrapper .modal-content.admin-modal-panel {
+        padding: 22px 14px !important;
+        border-radius: 16px !important;
+    }
+
+    .form-actions .btn {
+        min-width: 0;
+        flex: 1 1 calc(50% - 6px);
+    }
+
+    .toast {
+        right: 12px;
+        left: 12px;
+        bottom: max(16px, env(safe-area-inset-bottom, 0px));
+        padding: 14px 18px;
+        justify-content: center;
+    }
+}
+
 .form-group {
     margin-bottom: 25px;
     text-align: left;
@@ -1285,6 +2242,32 @@ footer {
     font-size: 0.95rem;
     font-family: var(--font-heading);
     letter-spacing: 1px;
+}
+
+.form-hint {
+    margin-top: 8px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+.form-input-select {
+    background: rgba(0, 0, 0, 0.45) !important;
+    cursor: pointer;
+}
+
+.admin-modal-title {
+    margin-bottom: 1.25rem;
+    font-family: var(--font-heading);
+    color: var(--accent);
+    font-size: clamp(1.25rem, 4vw, 1.65rem);
+    text-align: left;
+}
+
+.admin-modal-panel {
+    max-width: 520px;
+    text-align: left;
+    padding: clamp(28px, 5vw, 44px) clamp(20px, 4vw, 36px) !important;
 }
 
 
@@ -1435,9 +2418,8 @@ footer {
         gap: 0;
     }
 
-    /* Strictly filter 4 items and hide the rest perfectly for mobile */
+    /* Strictly hide Gallery and Admin only, allowing Contact (6) to show */
     .nav-links li:nth-child(5),
-    .nav-links li:nth-child(6),
     .nav-links li:nth-child(7) {
         display: none !important;
     }
@@ -1461,22 +2443,23 @@ footer {
     .nav-links a {
         position: relative;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
         justify-content: center;
-        padding: 4px 0;
-        border-radius: 12px;
-        height: 50px;
-        width: 100%;
+        padding: 10px 14px;
+        border-radius: 30px;
+        height: auto;
+        width: auto;
         background: transparent;
-        color: rgba(255, 255, 255, 0.6);
-        transition: all 0.3s ease;
+        color: transparent;
+        transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         text-decoration: none;
         white-space: nowrap;
-        font-size: 0.6rem;
-        font-weight: 500;
+        font-size: 0;
+        font-weight: 600;
         letter-spacing: 0.5px;
         text-transform: none;
+        gap: 0;
     }
 
     /* Override desktop hover underline */
@@ -1489,11 +2472,11 @@ footer {
     .nav-links a::before {
         font-family: "Font Awesome 6 Free";
         font-weight: 900;
-        font-size: 1.2rem;
-        margin-bottom: 2px;
+        font-size: 1.3rem;
+        margin-bottom: 0;
         display: block;
         color: rgba(255, 255, 255, 0.6);
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
     .nav-links li:nth-child(1) a::before {
@@ -1512,27 +2495,34 @@ footer {
 
     /* Events */
     .nav-links li:nth-child(4) a::before {
-        content: "\e508";
+        content: "\f0c0";
+    }
+
+    /* Contact */
+    .nav-links li:nth-child(6) a::before {
+        content: "\f095";
     }
 
     /* Team */
 
     .nav-links a.active,
     .nav-links a:hover {
-        background: transparent;
-        box-shadow: none;
-        width: 100%;
-        padding: 4px 0;
+        background: rgba(252, 211, 77, 0.15);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        width: auto;
+        padding: 10px 22px;
         text-shadow: none;
-        transform: translateY(-3px);
+        transform: translateY(-2px);
         color: var(--accent);
+        font-size: 0.85rem;
+        gap: 8px;
     }
 
     .nav-links a.active::before,
     .nav-links a:hover::before {
         color: var(--accent);
-        transform: scale(1.15);
-        filter: drop-shadow(0 0 5px rgba(252, 211, 77, 0.5));
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 8px rgba(252, 211, 77, 0.6));
     }
 
     .hero h2 {
@@ -1567,9 +2557,6 @@ footer {
         font-size: 2.2rem;
     }
 
-    .scroll-indicator {
-        bottom: 65px; /* Fits exactly between the bottom app bar and the Upcoming Events button */
-    }
 
     .hero {
         min-height: 80vh !important;
@@ -1584,6 +2571,22 @@ footer {
     #events {
         padding-top: 30px !important;
     }
+    
+    #events .section-title-wrap { margin-bottom: 5px !important; }
+    #events .section-title-wrap + div { margin-bottom: 0px !important; margin-top: -15px !important; }
+    #events img[alt="Abhyuday Logo"] { height: 110px !important; min-height: auto !important; margin-bottom: 0 !important; }
+    
+    .event-tabs { gap: 8px !important; margin-bottom: 20px !important; display: flex !important; justify-content: space-between !important; width: 100%; }
+    .tab-btn { flex: 1; padding: 10px 5px !important; font-size: 0.8rem !important; white-space: normal; text-align: center; line-height: 1.2; }
+
+    .events-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; padding: 0 5px !important; }
+    .event-card { padding: 10px !important; border-radius: 15px !important; }
+    .event-img { height: 120px !important; }
+    .event-date-badge { font-size: 0.65rem !important; padding: 4px 8px !important; top: 8px !important; right: 8px !important; }
+    .event-details { padding: 15px 5px 5px !important; }
+    .event-title { font-size: 1rem !important; margin-bottom: 8px !important; }
+    .event-desc { font-size: 0.75rem !important; line-height: 1.4 !important; margin-bottom: 12px !important; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .event-action { font-size: 0.7rem !important; }
 
     .about-text { padding: 25px 20px !important; }
     .about-text h3 { font-size: 1.6rem !important; margin-bottom: 15px !important; }
@@ -1595,6 +2598,174 @@ footer {
 
     .gallery-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; padding: 0 10px !important; }
     .gallery-wrapper { height: 160px !important; }
+
+    /* Narrower side gutters + slightly wider convener card = coordinators read a bit larger */
+    #team .container {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+
+    #team .team-club-cover {
+        margin-bottom: 1.05rem !important;
+        padding: 0.6rem 0.65rem 0.75rem !important;
+        max-width: 176px !important;
+        border-radius: 15px !important;
+    }
+
+    #team .team-convener-photo {
+        max-width: 118px !important;
+        margin-bottom: 0.5rem !important;
+        border-radius: 11px !important;
+    }
+
+    #team .team-convener-badge {
+        margin-bottom: 0.38rem !important;
+        padding: 0.1rem 0.2rem !important;
+        font-size: 0.45rem !important;
+        letter-spacing: 0.1em !important;
+    }
+
+    #team .team-convener-name {
+        font-size: 0.58rem !important;
+        letter-spacing: 0.035em !important;
+        line-height: 1.22 !important;
+        margin-bottom: 0.28rem !important;
+    }
+
+    #team .team-convener-role {
+        font-size: 0.52rem !important;
+        line-height: 1.32 !important;
+    }
+
+    #team .team-layout {
+        gap: 2rem !important;
+    }
+
+    /* Same row-1 + half row-2 collapse on phone for every year (peek height from JS uses clip padding) */
+    #team .team-year-panel .team-grid-clip:not(.team-grid-clip--single-row):not(.is-expanded) {
+        max-height: var(--team-grid-peek, 520px) !important;
+    }
+
+    #team .team-year-block {
+        min-width: 0;
+    }
+
+    #team .team-year-panel {
+        border-radius: clamp(14px, 3.5vw, 20px) !important;
+        border-width: 1px !important;
+    }
+
+    #team .team-year-panel:has(.team-grid-clip:not(.is-expanded):not(.team-grid-clip--single-row)) {
+        border-bottom: none !important;
+        border-bottom-left-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+    }
+
+    #team .team-year-banner {
+        padding: 0.65rem 1rem 0.8rem !important;
+    }
+
+    #team .team-year-panel .team-grid-clip {
+        padding: 0.9rem 0.5rem 1.1rem !important;
+    }
+
+    .team-view-more {
+        font-size: 0.6rem !important;
+        letter-spacing: 0.1em !important;
+        padding: 0.38rem 0.85rem 0.38rem 0.95rem !important;
+        gap: 0.4rem !important;
+        bottom: 0.38rem !important;
+        border-radius: 8px !important;
+    }
+
+    .team-grid-clip:not(.is-expanded):not(.team-grid-clip--single-row) .team-view-more {
+        border-radius: 10px 10px 0 0 !important;
+    }
+
+    .team-view-more::after {
+        width: 0.32rem !important;
+        height: 0.32rem !important;
+        border-width: 1.5px !important;
+    }
+
+    .team-grid-fade {
+        height: clamp(28px, 12%, 64px) !important;
+        backdrop-filter: blur(2px) !important;
+        -webkit-backdrop-filter: blur(2px) !important;
+        -webkit-mask-image: linear-gradient(
+            to bottom,
+            transparent 0%,
+            rgba(0, 0, 0, 0.06) 14%,
+            rgba(0, 0, 0, 0.28) 36%,
+            rgba(0, 0, 0, 0.72) 68%,
+            rgba(0, 0, 0, 0.98) 92%,
+            #000 100%
+        ) !important;
+        mask-image: linear-gradient(
+            to bottom,
+            transparent 0%,
+            rgba(0, 0, 0, 0.06) 14%,
+            rgba(0, 0, 0, 0.28) 36%,
+            rgba(0, 0, 0, 0.72) 68%,
+            rgba(0, 0, 0, 0.98) 92%,
+            #000 100%
+        ) !important;
+    }
+
+    #team .team-year-heading {
+        font-size: clamp(1.05rem, 4.5vw, 1.45rem) !important;
+        letter-spacing: 0.08em !important;
+    }
+
+    /* 3 per row on phone — wider columns so long first names (e.g. PRIYADARSHAN) stay on one line */
+    .team-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 10px !important;
+    }
+
+    #team .member-card {
+        min-width: 0;
+        padding: 6px 4px 14px !important;
+    }
+
+    /* Same 4:5 frame as desktop; contain keeps full face in frame (no short-box crop) */
+    #team .member-img {
+        height: auto !important;
+        max-height: none !important;
+        aspect-ratio: 4 / 5 !important;
+        margin-bottom: 6px !important;
+        width: 100%;
+    }
+
+    #team .member-img img {
+        object-fit: contain !important;
+        object-position: center top !important;
+    }
+
+    #team .member-name {
+        font-size: 0.62rem !important;
+        line-height: 1.2 !important;
+        margin-bottom: 2px !important;
+        word-break: normal;
+        /* Prefer breaking between words (L G on next line), not inside PRIYADARSHAN */
+        overflow-wrap: normal;
+        hyphens: none;
+    }
+
+    @supports (text-wrap: pretty) {
+        #team .member-name {
+            text-wrap: pretty;
+        }
+    }
+
+    #team .member-branch {
+        font-size: 0.52rem !important;
+        line-height: 1.25 !important;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
     
     #contact { padding-bottom: 20px !important; }
 }
